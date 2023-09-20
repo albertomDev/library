@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <script
+      src="https://kit.fontawesome.com/423365c9ae.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <h1>Library 📚</h1>
+        <p>Login</p>
+      </div>
+    </header>
+    <div class="container">
+      <main>
+        <div class="search-section">
+          <button class="add-book-button">+ Add book</button>
+          <form id="searchForm" action="/search" method="GET">
+            <input
+              hidden
+              class="search-book"
+              type="text"
+              name="query"
+              placeholder="Search your book"
+            />
+          </form>
+        </div>
+      </main>
+    </div>
+    <footer>
+      <p>
+        <a href="https://github.com/albertomDev/library">albertomDev</a> ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+      </p>
+    </footer>
+    <script src="main.js"></script>
+  </body>
+</html>
