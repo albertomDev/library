@@ -61,8 +61,8 @@ header input {
   flex-direction: column;
 }
 
-.search-book {
-  width: 1rem;
+.search-bar {
+  width: 10rem;
   margin-block: 2.3rem;
   border-radius: 1.7rem;
   border: none;
@@ -71,13 +71,13 @@ header input {
   padding-inline: 1rem;
 }
 
-.search-book.clicked {
+.search-bar.clicked {
   width: 50rem;
   transition: width 0.5s;
   margin-block: 2.3rem;
 }
 
-.search-book:focus {
+.search-bar:focus {
   outline: none;
   border: #ff9100 1px solid;
 }
