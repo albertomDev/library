@@ -11,36 +11,42 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <div class="header">
-        <h1>Library 📚</h1>
-        <p>Login</p>
-      </div>
-    </header>
-    <div class="container">
-      <main>
-        <div class="search-section">
-          <button class="add-book-button">+ Add book</button>
-          <form id="search-bar-form">
-            <input
-              hidden
-              class="search-bar"
-              type="text"
-              name="query"
-              placeholder="Search your book"
-            />
-          </form>
+    <div class="wrapper">
+      <header>
+        <div class="header">
+          <h1>Library 📚</h1>
+          <p>Login</p>
         </div>
-      </main>
+      </header>
+      <div class="container">
+        <main>
+          <div class="search-section">
+            <button class="add-book-button">+ Add book</button>
+            <form id="search-bar-form">
+              <input
+                hidden
+                class="search-bar"
+                type="text"
+                name="query"
+                placeholder="Search your book"
+              />
+            </form>
+          </div>
+
+          <div class="books">
+          </div>
+        </main>
+      </div>
     </div>
-    <footer>
-      <p>
-        <a href="https://github.com/albertomDev/library">albertomDev</a> ©
-        <script>
-          document.write(new Date().getFullYear());
-        </script>
-      </p>
-    </footer>
+      <footer>
+        <p>
+          <a href="https://github.com/albertomDev/library">albertomDev</a> ©
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+        </p>
+      </footer>
+    
     <script type="module" src="main.js"></script>
   </body>
 </html>

@@ -8,12 +8,14 @@
 
 body {
   background-color: #efefef;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 .container {
   display: grid;
   grid-template-rows: 1fr auto;
-  place-content: center;
 }
 
 .container,
@@ -28,14 +30,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 header {
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  padding-block: 1.5rem;
+  padding-block: 1.3rem;
 }
 
 header input {
@@ -44,6 +46,7 @@ header input {
 }
 /* END HEADER */
 
+/* START SEARCH BAR */
 .add-book-button {
   margin-block: 2rem;
   font-size: 1.5rem;
@@ -82,10 +85,35 @@ header input {
   border: #ff9100 1px solid;
 }
 
+#search-bar-form {
+  display: flex;
+  justify-content: center;
+}
+/* END SEARCH BAR */
+
+.books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.book-img img {
+  height: 13rem;
+  width: 9rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.book-img img:hover {
+  transform: scale(1.1);
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
 /* START FOOTER */
 footer {
   width: 100%;
-  position: fixed;
   text-align: center;
   bottom: 0;
   padding-block: 1.5rem;
