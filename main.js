@@ -2,23 +2,69 @@ import { APIKey } from "./key.js";
 const searchBar = document.querySelector(".search-bar");
 const addBookButton = document.querySelector(".add-book-button");
 const searchBarForm = document.querySelector("#search-bar-form");
-const booksDiv = document.querySelector(".books");
-const allBooks = document.querySelectorAll(".books");
+const bookImgs = document.querySelector(".books");
+const bookModal = document.querySelector(".book-modal");
+const bookForm = document.querySelector(".book-modal form");
+const closeModal = document.querySelector(".modal-btn-cancel");
+const modalImg = document.querySelector(".modal-img");
+const modalTitle = document.querySelector(".modal-title");
+const modalAuthor = document.querySelector(".modal-author input");
+const modalPages = document.querySelector(".modal-pages input");
+
+const showBookInfoHandler = (event) => {
+  const cardThumbnail = document.createElement("img");
+  cardThumbnail.src = event.target.getAttribute("src");
+  document.querySelector(".modal-img").append(cardThumbnail);
+  modalTitle.textContent = event.target.dataset.title;
+  modalAuthor.value = event.target.dataset.author;
+  modalPages.value = event.target.dataset.pages;
+  console.log(event.target);
+  bookModal.showModal();
+};
+
+const cleanDialog = (event) => {
+  modalImg?.firstChild.remove();
+  modalTitle.textContent = "";
+  modalAuthor.value = "";
+  modalPages.value = "";
+
+  showBookInfoHandler(event);
+};
 
 const displayBooks = (books) => {
   console.log(books);
   books.forEach((book) => {
+    const id = book.id;
     const thumbnail = book.volumeInfo?.imageLinks?.smallThumbnail ?? "";
-    console.log(thumbnail);
+    const title = book.volumeInfo?.title ?? "unknown";
+    const author = book.volumeInfo?.authors?.join(" ") ?? "unknown";
+    const pages = book.volumeInfo?.pageCount ?? "0";
     if (thumbnail !== "") {
       const cardThumbnail = document.createElement("img");
       const divCard = document.createElement("div");
       cardThumbnail.src = thumbnail;
+      cardThumbnail.dataset.id = id;
+      cardThumbnail.dataset.title = title;
+      cardThumbnail.dataset.author = author;
+      cardThumbnail.dataset.pages = pages;
       divCard.classList.add("book-img");
       divCard.append(cardThumbnail);
-      booksDiv.append(divCard);
+      bookImgs.append(divCard);
     }
   });
+
+  bookImgs.childNodes.forEach((node) => {
+    node.addEventListener("click", cleanDialog);
+  });
+};
+
+const addBookButtonHandler = () => {
+  addBookButton.hidden = true;
+  searchBar.hidden = false;
+  setTimeout(() => {
+    searchBar.classList.add("clicked");
+    searchBar.focus();
+  }, 100);
 };
 
 const bookAPI = (term) => {
@@ -32,8 +78,8 @@ const bookAPI = (term) => {
       return res.json();
     })
     .then((data) => {
-      while (booksDiv.firstChild) {
-        booksDiv.firstChild.remove();
+      while (bookImgs.firstChild) {
+        bookImgs.firstChild.remove();
       }
       displayBooks(data.items);
     })
@@ -42,15 +88,15 @@ const bookAPI = (term) => {
     });
 };
 
-const addBookButtonHandler = () => {
-  addBookButton.hidden = true;
-  searchBar.hidden = false;
-  setTimeout(() => {
-    searchBar.classList.add("clicked");
-    searchBar.focus();
-  }, 100);
-};
+closeModal.addEventListener("click", () => {
+  bookModal.close();
+});
 
+bookForm.addEventListener("submit", (event) => {
+  console.log(event.currentTarget);
+});
+
+// bookImgs.addEventListener("click", showBookInfoHandler);
 
 addBookButton.addEventListener("click", addBookButtonHandler);
 

@@ -6,33 +6,27 @@
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+/* START PAGE LAYOUT */
 body {
-  background-color: #efefef;
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #efefef;
 }
 
 .container {
-  display: grid;
-  grid-template-rows: 1fr auto;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
 }
 
-.container,
-.header {
-  max-width: 1200px;
-  padding-inline: 20px;
-  margin-inline: auto;
+main {
+  flex-grow: 1;
 }
+
+/* START PAGE LAYOUT */
 
 /* START HEADER */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-}
-
 header {
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -40,13 +34,31 @@ header {
   padding-block: 1.3rem;
 }
 
-header input {
-  width: 45rem;
-  padding-inline: 0.5rem;
+nav > ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  align-items: center;
 }
-/* END HEADER */
 
-/* START SEARCH BAR */
+nav > ul > li > a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.logo {
+  font-size: 1.8rem;
+}
+/* START HEADER */
+
+.main {
+  display: grid;
+  place-items: center;
+}
+
+/* START ADD BOOK */
 .add-book-button {
   margin-block: 2rem;
   font-size: 1.5rem;
@@ -57,11 +69,6 @@ header input {
 
 .add-book-button:hover {
   color: #ff9100;
-}
-
-.search-section {
-  display: flex;
-  flex-direction: column;
 }
 
 .search-bar {
@@ -84,12 +91,13 @@ header input {
   outline: none;
   border: #ff9100 1px solid;
 }
+/* START ADD BOOK */
 
-#search-bar-form {
-  display: flex;
-  justify-content: center;
+/* START FETCH BOOKS */
+.book-wrapper {
+  width: 100%;
+  padding-inline: 1.6875rem;
 }
-/* END SEARCH BAR */
 
 .books {
   display: flex;
@@ -110,8 +118,148 @@ header input {
   transition: all 0.1s ease-in-out;
   cursor: pointer;
 }
+/* START FETCH BOOKS */
 
-/* START FOOTER */
+/* START MODAL BOOKS */
+.book-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.modal-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.book-modal::backdrop {
+  background: rgba(0, 0, 0, 0.737);
+}
+
+.book-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-info-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-img img {
+  height: 10rem;
+  width: 6.8rem;
+  object-fit: cover;
+}
+
+.modal-info-wrapper input {
+  border: none;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3d3d3d;
+}
+
+.modal-pages,
+.modal-author {
+  border-bottom: 1px solid rgb(226, 226, 226);
+  padding-bottom: 0.1rem;
+}
+
+.modal-pages {
+  margin-top: 0.5rem;
+}
+
+.modal-info-wrapper input,
+.modal-info-wrapper label {
+  font-size: 0.9rem;
+  color: #3d3d3d;
+}
+
+.modal-info-wrapper input:focus {
+  border: none;
+  outline: none;
+}
+
+.book-state-btns {
+  padding-block: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.book-state-btns button {
+  margin-top: 0.3rem;
+  padding: 0.3rem;
+  border-radius: 0.4rem;
+  border: #3d3d3d solid 1px;
+  color: #3d3d3d;
+  background-color: white;
+}
+
+.book-state-btns button:hover {
+  border: #3d3d3d solid 1px;
+  color: white;
+  background-color: #3d3d3d;
+}
+
+.book-state-btns button:active{
+  background-color: #3d3d3d;
+  color: white;
+}
+
+.book-state-btns button:focus{
+  background-color: #3d3d3d;
+  color: white;
+}
+
+.modal-rating {
+  font-size: 1.3rem;
+}
+
+.modal-submit-btns {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-btn-confirm,
+.modal-btn-cancel {
+  font-size: 1rem;
+  padding-inline: 0.5rem;
+  padding-block: 0.3rem;
+}
+
+.modal-btn-cancel {
+  color: #fb3640;
+  background-color: white;
+  border: #fb3640 1px solid;
+  border-radius: 0.4rem;
+}
+
+.modal-btn-confirm {
+  color: white;
+  background-color: #40916c;
+  border: #40916c 1px solid;
+  border-radius: 0.4rem;
+}
+
+.modal-btn-cancel:hover {
+  color: white;
+  background-color: #fb3640;
+}
+
+.modal-btn-confirm:hover {
+  color: white;
+  background-color: #2d6a4f;
+}
+
+/* END MODAL BOOKS */
+
 footer {
   width: 100%;
   text-align: center;

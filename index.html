@@ -11,42 +11,81 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <div class="header">
-          <h1>Library 📚</h1>
-          <p>Login</p>
-        </div>
-      </header>
+    <header>
       <div class="container">
-        <main>
-          <div class="search-section">
-            <button class="add-book-button">+ Add book</button>
-            <form id="search-bar-form">
-              <input
-                hidden
-                class="search-bar"
-                type="text"
-                name="query"
-                placeholder="Search your book"
-              />
-            </form>
-          </div>
-
-          <div class="books">
-          </div>
-        </main>
+        <nav>
+          <ul>
+            <li><a class="logo" href="#">Library</a></li>
+            <li><a href="#">Login</a></li>
+          </ul>
+        </nav>
       </div>
-    </div>
-      <footer>
-        <p>
-          <a href="https://github.com/albertomDev/library">albertomDev</a> ©
-          <script>
-            document.write(new Date().getFullYear());
-          </script>
-        </p>
-      </footer>
-    
+    </header>
+    <main>
+      <div class="main container">
+        <button class="add-book-button">+ Add book</button>
+        <form id="search-bar-form">
+          <input
+            hidden
+            class="search-bar"
+            type="text"
+            name="query"
+            placeholder="Search your book"
+          />
+        </form>
+
+        <div class="book-wrapper">
+          <div class="books"></div>
+        </div>
+
+        <dialog class="book-modal">
+          <form method="dialog">
+            <div class="modal-wrapper">
+              <div class="modal-img">
+              </div>
+              <div class="modal-info">
+                <div class="modal-info-wrapper">
+                  <p class="modal-title">Game of thrones</p>
+                  <div class="modal-author">
+                    <label for="author">By </label>
+                    <input id="author" name="author" value="Juicy punde" />
+                  </div>
+                  <div class="modal-pages">
+                    <label for="pages">Pages: </label>
+                    <input
+                      id="pages"
+                      name="pages"
+                      class="modal-pages"
+                      value="540"
+                    />
+                  </div>
+                </div>
+
+                <div class="book-state-btns">
+                  <button type="button">Reading</button>
+                  <button type="button">Finished</button>
+                  <button type="button">To read</button>
+                </div>
+                <p class="modal-rating">⭐️⭐️⭐️⭐️⭐️</p>
+              </div>
+            </div>
+            <div class="modal-submit-btns">
+              <button class="modal-btn-confirm">Confirm</button>
+              <button type="button" class="modal-btn-cancel">Cancel</button>
+            </div>
+          </form>
+        </dialog>
+      </div>
+    </main>
+    <footer>
+      <p>
+        <a href="https://github.com/albertomDev/library">albertomDev</a> ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+      </p>
+    </footer>
+
     <script type="module" src="main.js"></script>
   </body>
 </html>
