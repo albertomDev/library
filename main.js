@@ -11,7 +11,14 @@ const modalTitle = document.querySelector(".modal-title");
 const modalAuthor = document.querySelector(".modal-author input");
 const modalPages = document.querySelector(".modal-pages input");
 
-const showBookInfoHandler = (event) => {
+const showModalBook = (event) => {
+  if (modalImg.firstChild) {
+    modalImg.firstChild.remove();
+  }
+  modalTitle.textContent = "";
+  modalAuthor.value = "";
+  modalPages.value = "";
+
   const cardThumbnail = document.createElement("img");
   cardThumbnail.src = event.target.getAttribute("src");
   document.querySelector(".modal-img").append(cardThumbnail);
@@ -22,16 +29,7 @@ const showBookInfoHandler = (event) => {
   bookModal.showModal();
 };
 
-const cleanDialog = (event) => {
-  modalImg?.firstChild.remove();
-  modalTitle.textContent = "";
-  modalAuthor.value = "";
-  modalPages.value = "";
-
-  showBookInfoHandler(event);
-};
-
-const displayBooks = (books) => {
+const showFetchedBooks = (books) => {
   console.log(books);
   books.forEach((book) => {
     const id = book.id;
@@ -54,7 +52,7 @@ const displayBooks = (books) => {
   });
 
   bookImgs.childNodes.forEach((node) => {
-    node.addEventListener("click", cleanDialog);
+    node.addEventListener("click", showModalBook);
   });
 };
 
@@ -81,7 +79,7 @@ const bookAPI = (term) => {
       while (bookImgs.firstChild) {
         bookImgs.firstChild.remove();
       }
-      displayBooks(data.items);
+      showFetchedBooks(data.items);
     })
     .catch((error) => {
       console.log(error);

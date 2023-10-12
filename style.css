@@ -207,18 +207,23 @@ nav > ul > li > a {
   background-color: #3d3d3d;
 }
 
-.book-state-btns button:active{
+.book-state-btns button:active {
   background-color: #3d3d3d;
   color: white;
 }
 
-.book-state-btns button:focus{
+.book-state-btns button:focus {
   background-color: #3d3d3d;
   color: white;
 }
 
 .modal-rating {
+  display: flex;
   font-size: 1.3rem;
+}
+
+.modal-rating i {
+  color: #ff9900;
 }
 
 .modal-submit-btns {
