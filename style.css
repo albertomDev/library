@@ -207,7 +207,7 @@ nav > ul > li > a {
   background-color: #3d3d3d;
 }
 
-.book-state-btns button:active {
+.book-state-btns .active {
   background-color: #3d3d3d;
   color: white;
 }
@@ -224,6 +224,7 @@ nav > ul > li > a {
 
 .modal-rating i {
   color: #ff9900;
+  cursor: pointer;
 }
 
 .modal-submit-btns {

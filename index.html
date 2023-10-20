@@ -38,20 +38,33 @@
           />
         </form>
 
+        <div class="confirmed-books">
+          <!-- <div class="confirmed-book-img"></div>
+          <div class="confirmed-book-main">
+            <div class="confirmed-book-info">
+              <p class="confirmed-book-title"></p>
+              <p class="confirmed-book-author"></p>
+              <p class="confirmed-book-pages"></p>
+            </div>
+            <div class="confirmed-book-state-btn"></div>
+            <div class="confirmed-book-rating"></div>
+          </div> -->
+        </div>
+
         <div class="book-wrapper">
           <div class="books"></div>
         </div>
 
         <dialog class="book-modal">
-          <form method="dialog">
+          <form>
             <div class="modal-wrapper">
               <div class="modal-img"></div>
               <div class="modal-info">
                 <div class="modal-info-wrapper">
-                  <p class="modal-title">Game of thrones</p>
+                  <p class="modal-title" id=""></p>
                   <div class="modal-author">
                     <label for="author">By </label>
-                    <input id="author" name="author" value="Juicy punde" />
+                    <input id="author" name="author" value="" />
                   </div>
                   <div class="modal-pages">
                     <label for="pages">Pages: </label>
@@ -59,28 +72,27 @@
                       id="pages"
                       name="pages"
                       class="modal-pages"
-                      value="540"
+                      value=""
                     />
                   </div>
                 </div>
-
                 <div class="book-state-btns">
-                  <button type="button">Reading</button>
+                  <button type="button" class="active">Reading</button>
                   <button type="button">Finished</button>
                   <button type="button">To read</button>
                 </div>
-                <div class="modal-rating">
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                </div>
+                <div class="modal-rating"></div>
               </div>
             </div>
             <div class="modal-submit-btns">
-              <button class="modal-btn-confirm">Confirm</button>
-              <button type="button" class="modal-btn-cancel">Cancel</button>
+              <button class="modal-btn-confirm" value="default">Confirm</button>
+              <button
+                type="button"
+                class="modal-btn-cancel"
+                formmethod="dialog"
+              >
+                Cancel
+              </button>
             </div>
           </form>
         </dialog>

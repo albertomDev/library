@@ -10,8 +10,49 @@ const modalImg = document.querySelector(".modal-img");
 const modalTitle = document.querySelector(".modal-title");
 const modalAuthor = document.querySelector(".modal-author input");
 const modalPages = document.querySelector(".modal-pages input");
+const storedBooks = [];
+
+const addBookButtonHandler = () => {
+  addBookButton.hidden = true;
+  searchBar.hidden = false;
+  setTimeout(() => {
+    searchBar.classList.add("clicked");
+    searchBar.focus();
+  }, 100);
+};
 
 const showModalBook = (event) => {
+  bookModal.showModal();
+  console.log(event.target);
+  const cardThumbnail = document.createElement("img");
+  cardThumbnail.src = event.target.getAttribute("src");
+  document.querySelector(".modal-img").append(cardThumbnail);
+  modalTitle.textContent = event.target.dataset.title;
+  modalTitle.setAttribute("id", event.target.dataset.id);
+  modalAuthor.value = event.target.dataset.author;
+  modalPages.value = event.target.dataset.pages;
+  bookModal.showModal();
+
+  document.querySelectorAll(".book-state-btns button").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      document
+        .querySelector(".book-state-btns .active")
+        .classList.remove("active");
+      event.currentTarget.classList.add("active");
+    });
+  });
+
+  document.querySelectorAll(".modal-rating i").forEach((star) => {
+    star.addEventListener("click", (event) => {
+      event.target.classList.remove("fa-regular");
+      event.target.classList.add("fa-solid");
+    });
+  });
+};
+
+// it needs to click each modal book otherwise,
+// the edited data will persist
+const cleanModalBook = (event) => {
   if (modalImg.firstChild) {
     modalImg.firstChild.remove();
   }
@@ -19,16 +60,21 @@ const showModalBook = (event) => {
   modalAuthor.value = "";
   modalPages.value = "";
 
-  const cardThumbnail = document.createElement("img");
-  cardThumbnail.src = event.target.getAttribute("src");
-  document.querySelector(".modal-img").append(cardThumbnail);
-  modalTitle.textContent = event.target.dataset.title;
-  modalAuthor.value = event.target.dataset.author;
-  modalPages.value = event.target.dataset.pages;
-  console.log(event.target);
-  bookModal.showModal();
+  while (document.querySelector(".modal-rating").firstChild) {
+    document.querySelector(".modal-rating").firstChild.remove();
+  }
+
+  for (let i = 0; i < 5; i++) {
+    const starFont = document.createElement("i");
+    starFont.classList.add("fa-regular");
+    starFont.classList.add("fa-star");
+    document.querySelector(".modal-rating").append(starFont);
+  }
+  showModalBook(event);
 };
 
+// It needs to check if there's thumbnail otherwise it will
+// show empty space instead of the book cover.
 const showFetchedBooks = (books) => {
   console.log(books);
   books.forEach((book) => {
@@ -52,17 +98,8 @@ const showFetchedBooks = (books) => {
   });
 
   bookImgs.childNodes.forEach((node) => {
-    node.addEventListener("click", showModalBook);
+    node.addEventListener("click", cleanModalBook);
   });
-};
-
-const addBookButtonHandler = () => {
-  addBookButton.hidden = true;
-  searchBar.hidden = false;
-  setTimeout(() => {
-    searchBar.classList.add("clicked");
-    searchBar.focus();
-  }, 100);
 };
 
 const bookAPI = (term) => {
@@ -86,15 +123,71 @@ const bookAPI = (term) => {
     });
 };
 
+const displayConfirmedBook = (book) => {
+  console.log(book);
+  const confirmedBookContainer = document.createElement("div");
+  confirmedBookContainer.classList.add("confirmed-book-container");
+
+  const confirmedImg = document.createElement("img");
+  confirmedImg.src = book[0].img;
+  confirmedBookContainer.append(confirmedImg);
+
+  const confirmedBookInfo = document.createElement("div");
+  const confirmedBookTitle = document.createElement("p");
+  confirmedBookTitle.textContent = book[0].title;
+  confirmedBookTitle.setAttribute("id", book[0].id);
+  confirmedBookInfo.append(confirmedBookTitle);
+
+  const confirmedBookAuthor = document.createElement("p");
+  confirmedBookAuthor.textContent = book[0].author;
+  confirmedBookInfo.append(confirmedBookAuthor);
+
+  const confirmedBookPages = document.createElement("p");
+  confirmedBookPages.textContent = book[0].pages;
+  confirmedBookInfo.append(confirmedBookPages);
+
+  const confirmedBookState = document.createElement("p");
+  confirmedBookState.textContent = book[0].state;
+  confirmedBookInfo.append(confirmedBookState);
+
+  const confirmedBookRating = document.createElement("div");
+  book[0].rating.forEach((star) => {
+    confirmedBookRating.append(star);
+  });
+  confirmedBookInfo.append(confirmedBookRating);
+
+  confirmedBookContainer.append(confirmedBookInfo);
+  document.querySelector(".confirmed-books").append(confirmedBookContainer);
+};
+
+const storeConfirmedBook = (event) => {
+  event.preventDefault();
+
+  if (storedBooks.some((book) => book.id === modalTitle.getAttribute("id"))) {
+    console.log("hello");
+  } else {
+    console.log(event.target.querySelector(".book-state-btns .active"));
+    const confirmedBooks = {
+      id: modalTitle.getAttribute("id"),
+      img: modalImg.childNodes[0].src,
+      title: modalTitle.textContent,
+      author: modalAuthor.value,
+      pages: modalPages.value,
+      state: event.target.querySelector(".book-state-btns .active").textContent,
+      rating: event.target.querySelectorAll(".modal-rating i"),
+    };
+    // console.log(confirmedBooks);
+    storedBooks.push(confirmedBooks);
+    displayConfirmedBook(storedBooks.slice(-1));
+    bookModal.close();
+  }
+};
+
 closeModal.addEventListener("click", () => {
   bookModal.close();
 });
 
-bookForm.addEventListener("submit", (event) => {
-  console.log(event.currentTarget);
-});
-
-// bookImgs.addEventListener("click", showBookInfoHandler);
+bookForm.addEventListener("submit", storeConfirmedBook);
 
 addBookButton.addEventListener("click", addBookButtonHandler);
 
