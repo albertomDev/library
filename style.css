@@ -263,8 +263,57 @@ nav > ul > li > a {
   color: white;
   background-color: #2d6a4f;
 }
-
 /* END MODAL BOOKS */
+
+/* START CONFIRMED BOOKS */
+.confirmed-books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-inline: 0.7rem;
+  width: 100%;
+  justify-content: start;
+}
+
+.confirmed-book-container {
+  width: 17rem;
+  height: 9.125rem;
+  background: white;
+  display: flex;
+  border-radius: 1rem;
+  padding: 1rem;
+  gap: 0.5rem;
+  color: #3d3d3d;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.confirmed-book-container img {
+  height: 110px;
+  width: 73.33px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.confirmed-book-info p:nth-child(1) {
+  font-weight: bold;
+}
+
+.confirmed-book-info p:nth-child(2),
+.confirmed-book-info p:nth-child(3) {
+  color: #6b6b6b;
+}
+
+.confirmed-book-info button {
+  display: flex;
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-block: 5px;
+}
+
+.confirmed-book-rating i {
+  color: #ff9900;
+}
 
 footer {
   width: 100%;

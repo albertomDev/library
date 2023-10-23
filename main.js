@@ -44,8 +44,8 @@ const showModalBook = (event) => {
 
   document.querySelectorAll(".modal-rating i").forEach((star) => {
     star.addEventListener("click", (event) => {
-      event.target.classList.remove("fa-regular");
-      event.target.classList.add("fa-solid");
+      event.currentTarget.classList.toggle("fa-regular");
+      event.currentTarget.classList.toggle("fa-solid");
     });
   });
 };
@@ -81,7 +81,7 @@ const showFetchedBooks = (books) => {
     const id = book.id;
     const thumbnail = book.volumeInfo?.imageLinks?.smallThumbnail ?? "";
     const title = book.volumeInfo?.title ?? "unknown";
-    const author = book.volumeInfo?.authors?.join(" ") ?? "unknown";
+    const author = book.volumeInfo?.authors?.[0] ?? "unknown";
     const pages = book.volumeInfo?.pageCount ?? "0";
     if (thumbnail !== "") {
       const cardThumbnail = document.createElement("img");
@@ -123,7 +123,17 @@ const bookAPI = (term) => {
     });
 };
 
+const confirmedBookCleanUp = () => {
+  while (bookImgs.firstChild) {
+    bookImgs.firstChild.remove();
+  }
+  searchBar.value = "";
+  addBookButton.hidden = false;
+  searchBar.hidden = true;
+};
+
 const displayConfirmedBook = (book) => {
+  confirmedBookCleanUp();
   console.log(book);
   const confirmedBookContainer = document.createElement("div");
   confirmedBookContainer.classList.add("confirmed-book-container");
@@ -133,10 +143,17 @@ const displayConfirmedBook = (book) => {
   confirmedBookContainer.append(confirmedImg);
 
   const confirmedBookInfo = document.createElement("div");
+  confirmedBookInfo.classList.add("confirmed-book-info");
   const confirmedBookTitle = document.createElement("p");
-  confirmedBookTitle.textContent = book[0].title;
-  confirmedBookTitle.setAttribute("id", book[0].id);
-  confirmedBookInfo.append(confirmedBookTitle);
+  if (book[0].title.length > 15) {
+    confirmedBookTitle.textContent = `${book[0].title.slice(0, 15)}...`;
+    confirmedBookTitle.setAttribute("id", book[0].id);
+    confirmedBookInfo.append(confirmedBookTitle);
+  } else {
+    confirmedBookTitle.textContent = book[0].title;
+    confirmedBookTitle.setAttribute("id", book[0].id);
+    confirmedBookInfo.append(confirmedBookTitle);
+  }
 
   const confirmedBookAuthor = document.createElement("p");
   confirmedBookAuthor.textContent = book[0].author;
@@ -146,11 +163,19 @@ const displayConfirmedBook = (book) => {
   confirmedBookPages.textContent = book[0].pages;
   confirmedBookInfo.append(confirmedBookPages);
 
-  const confirmedBookState = document.createElement("p");
+  const confirmedBookState = document.createElement("button");
+  if (book[0].state === "To read") {
+    confirmedBookState.style.backgroundColor = "#3d3d3d";
+  } else if (book[0].state === "Finished") {
+    confirmedBookState.style.backgroundColor = "#40916c";
+  } else if (book[0].state === "Reading") {
+    confirmedBookState.style.backgroundColor = "#0096c7";
+  }
   confirmedBookState.textContent = book[0].state;
   confirmedBookInfo.append(confirmedBookState);
 
   const confirmedBookRating = document.createElement("div");
+  confirmedBookRating.classList.add("confirmed-book-rating");
   book[0].rating.forEach((star) => {
     confirmedBookRating.append(star);
   });
