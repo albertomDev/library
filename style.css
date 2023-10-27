@@ -84,12 +84,11 @@ nav > ul > li > a {
 .search-bar.clicked {
   width: 50rem;
   transition: width 0.5s;
-  margin-block: 2.3rem;
+  margin-block: 1.9rem;
 }
 
 .search-bar:focus {
-  outline: none;
-  border: #ff9100 1px solid;
+  outline: #ff9100 1px solid; 
 }
 /* START ADD BOOK */
 
@@ -121,7 +120,8 @@ nav > ul > li > a {
 /* START FETCH BOOKS */
 
 /* START MODAL BOOKS */
-.book-modal {
+.book-modal,
+.edit-book-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -129,70 +129,85 @@ nav > ul > li > a {
   border-radius: 1rem;
   padding: 1rem;
 }
-.modal-wrapper {
+.modal-wrapper,
+.edit-modal-wrapper {
   display: flex;
   gap: 0.5rem;
   padding-bottom: 1rem;
 }
 
-.book-modal::backdrop {
+.book-modal::backdrop,
+.edit-book-modal::backdrop {
   background: rgba(0, 0, 0, 0.737);
 }
 
-.book-modal form {
+.book-modal form, 
+.edit-book-modal form {
   display: flex;
   flex-direction: column;
 }
 
-.modal-info-wrapper {
+.modal-info-wrapper,
+.edit-modal-info-wrapper {
   display: flex;
   flex-direction: column;
 }
 
-.modal-img img {
+.modal-img img,
+.edit-modal-img img {
   height: 10rem;
   width: 6.8rem;
   object-fit: cover;
 }
 
-.modal-info-wrapper input {
+.modal-info-wrapper input,
+.edit-modal-info-wrapper input {
   border: none;
 }
 
-.modal-title {
+.modal-title, 
+.edit-modal-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #3d3d3d;
 }
 
 .modal-pages,
-.modal-author {
+.modal-author,
+.edit-modal-pages,
+.edit-modal-author {
   border-bottom: 1px solid rgb(226, 226, 226);
   padding-bottom: 0.1rem;
 }
 
-.modal-pages {
+.modal-pages,
+.edit-modal-pages {
   margin-top: 0.5rem;
 }
 
 .modal-info-wrapper input,
-.modal-info-wrapper label {
+.modal-info-wrapper label,
+.edit-modal-info-wrapper input,
+.edit-modal-info-wrapper label {
   font-size: 0.9rem;
   color: #3d3d3d;
 }
 
-.modal-info-wrapper input:focus {
+.modal-info-wrapper input:focus, 
+.edit-modal-info-wrapper input:focus {
   border: none;
   outline: none;
 }
 
-.book-state-btns {
+.book-state-btns,
+.edit-book-state-btns {
   padding-block: 0.5rem;
   display: flex;
   gap: 0.5rem;
 }
 
-.book-state-btns button {
+.book-state-btns button,
+.edit-book-state-btns button {
   margin-top: 0.3rem;
   padding: 0.3rem;
   border-radius: 0.4rem;
@@ -201,77 +216,92 @@ nav > ul > li > a {
   background-color: white;
 }
 
-.book-state-btns button:hover {
+.book-state-btns button:hover, 
+.edit-book-state-btns button:hover {
   border: #3d3d3d solid 1px;
   color: white;
   background-color: #3d3d3d;
 }
 
-.book-state-btns .active {
+.book-state-btns .active,
+.edit-book-state-btns .active{
   background-color: #3d3d3d;
   color: white;
 }
 
-.book-state-btns button:focus {
+.book-state-btns button:focus,
+.edit-book-state-btns button:focus {
   background-color: #3d3d3d;
   color: white;
 }
 
-.modal-rating {
+.modal-rating,
+.edit-modal-rating {
   display: flex;
   font-size: 1.3rem;
 }
 
-.modal-rating i {
+.modal-rating i,
+.edit-modal-rating i {
   color: #ff9900;
   cursor: pointer;
 }
 
-.modal-submit-btns {
+.modal-submit-btns,
+.edit-modal-submit-btns {
   display: flex;
   gap: 1rem;
   justify-content: center;
 }
 
 .modal-btn-confirm,
-.modal-btn-cancel {
+.modal-btn-cancel,
+.edit-modal-btn-cancel,
+.edit-modal-btn-confirm {
   font-size: 1rem;
   padding-inline: 0.5rem;
   padding-block: 0.3rem;
 }
 
-.modal-btn-cancel {
+.modal-btn-cancel,
+.edit-modal-btn-cancel {
   color: #fb3640;
   background-color: white;
   border: #fb3640 1px solid;
   border-radius: 0.4rem;
 }
 
-.modal-btn-confirm {
+.modal-btn-confirm,
+.edit-modal-btn-confirm {
   color: white;
   background-color: #40916c;
   border: #40916c 1px solid;
   border-radius: 0.4rem;
 }
 
-.modal-btn-cancel:hover {
+.modal-btn-cancel:hover,
+.edit-modal-btn-cancel:hover {
   color: white;
   background-color: #fb3640;
 }
 
-.modal-btn-confirm:hover {
+.modal-btn-confirm:hover,
+.edit-modal-btn-confirm:hover {
   color: white;
   background-color: #2d6a4f;
 }
 /* END MODAL BOOKS */
 
 /* START CONFIRMED BOOKS */
+.confirmed-book-hide {
+  width: 100%;
+}
+
 .confirmed-books {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   padding-inline: 0.7rem;
-  width: 100%;
   justify-content: start;
 }
 
@@ -314,6 +344,22 @@ nav > ul > li > a {
 .confirmed-book-rating i {
   color: #ff9900;
 }
+
+.stars-edit-box {
+  display: flex;
+  width: 9.5rem;
+  justify-content: space-between;
+}
+
+.edit-icon {
+  font-size: 1.3rem;
+}
+
+.edit-icon:hover {
+  color: #0096c7;
+  cursor: pointer;
+}
+
 
 footer {
   width: 100%;

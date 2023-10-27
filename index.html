@@ -38,7 +38,8 @@
           />
         </form>
 
-        <div class="confirmed-books">
+        <div class="confirmed-book-hide">
+          <div class="confirmed-books"></div>
         </div>
 
         <div class="book-wrapper">
@@ -82,6 +83,57 @@
                 formmethod="dialog"
               >
                 Cancel
+              </button>
+            </div>
+          </form>
+        </dialog>
+
+        <dialog class="edit-book-modal">
+          <form>
+            <div class="edit-modal-wrapper">
+              <div class="edit-modal-img"></div>
+              <div class="edit-modal-info">
+                <div class="edit-modal-info-wrapper">
+                  <p class="edit-modal-title" id=""></p>
+                  <div class="edit-modal-author">
+                    <label for="author">By </label>
+                    <input id="author" name="author" value="" />
+                  </div>
+                  <div class="edit-modal-pages">
+                    <label for="pages">Pages: </label>
+                    <input
+                      id="pages"
+                      name="pages"
+                      class="edit-modal-pages"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div class="edit-book-state-btns">
+                  <button type="button" class="active">Reading</button>
+                  <button type="button">Finished</button>
+                  <button type="button">To read</button>
+                </div>
+                <div class="edit-modal-rating"></div>
+              </div>
+            </div>
+            <div class="edit-modal-submit-btns">
+              <button class="edit-modal-btn-confirm" value="default">
+                Save
+              </button>
+              <button
+                type="button"
+                class="edit-modal-btn-cancel"
+                formmethod="dialog"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="edit-modal-btn-cancel"
+                formmethod="dialog"
+              >
+                Delete
               </button>
             </div>
           </form>
