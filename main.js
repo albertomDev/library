@@ -7,7 +7,12 @@ const modalImg = document.querySelector(".modal-img");
 const modalTitle = document.querySelector(".modal-title");
 const modalAuthor = document.querySelector(".modal-author input");
 const modalPages = document.querySelector(".modal-pages input");
+const editModalImg = document.querySelector(".edit-modal-img");
+const editBookTitle = document.querySelector(".edit-modal-title");
+const editBookAuthor = document.querySelector(".edit-modal-author input");
+const editBookPages = document.querySelector(".edit-modal-pages input");
 const confirmedBooks = document.querySelector(".confirmed-books");
+const editBookRating = document.querySelector(".edit-modal-rating");
 const storedBooks = [];
 
 const addBookButtonHandler = () => {
@@ -20,7 +25,6 @@ const addBookButtonHandler = () => {
 };
 
 const showModalBook = (event) => {
-  console.log(event.target);
   const cardThumbnail = document.createElement("img");
   cardThumbnail.src = event.target.getAttribute("src");
   modalImg.append(cardThumbnail);
@@ -133,6 +137,10 @@ const cleanUpAfterSubmission = () => {
   searchBar.hidden = true;
 };
 
+const updateDomBook = (book) => {
+  console.log('hello world');
+}
+
 const cleanUpEditBook = () => {
   if (document.querySelector(".edit-modal-img").firstChild) {
     document.querySelector(".edit-modal-img").firstChild.remove();
@@ -146,21 +154,39 @@ const cleanUpEditBook = () => {
   }
 };
 
-const editStoredBook = (book) => {
-  console.log(book.rating[0]);
-  document.querySelector(".edit-book-modal").showModal();
+const submitEditedBook = (event) => {
+  event.preventDefault();
+  storedBooks.forEach((book) => {
+    if (book.id === editBookTitle.dataset.id) {
+      book.id = editBookTitle.dataset.id;
+      book.img = event.target.querySelector(".edit-modal-img img").src;
+      book.title = editBookTitle.textContent;
+      book.author = editBookAuthor.value;
+      book.pages = editBookPages.value;
+      book.rating = [];
+      event.target.querySelectorAll(".edit-modal-rating i").forEach((star) => {
+        book.rating.push(star.className);
+      });
+      updateDomBook(book)
+    }
+  });
+  console.log(storedBooks);
+  document.querySelector(".edit-book-modal").close();
+};
 
+const editStoredBook = (book) => {
+  document.querySelector(".edit-book-modal").showModal();
   const cardThumbnail = document.createElement("img");
   cardThumbnail.src = book.img;
-  document.querySelector(".edit-modal-img").append(cardThumbnail);
-  document.querySelector(".edit-modal-title").textContent = book.title;
-  document.querySelector(".edit-modal-title").dataset.id = book.id;
-  document.querySelector(".edit-modal-author input").value = book.author;
-  document.querySelector(".edit-modal-pages input").value = book.pages;
+  editModalImg.append(cardThumbnail);
+  editBookTitle.textContent = book.title;
+  editBookTitle.dataset.id = book.id;
+  editBookAuthor.value = book.author;
+  editBookPages.value = book.pages;
   book.rating.forEach((star) => {
     const eachStar = document.createElement("i");
     eachStar.className = star;
-    document.querySelector(".edit-modal-rating").append(eachStar);
+    editBookRating.append(eachStar);
   });
 
   document.querySelectorAll(".edit-modal-rating i").forEach((star) => {
@@ -185,6 +211,8 @@ const showSubmittedBook = (book) => {
   const confirmedBookInfo = document.createElement("div");
   confirmedBookInfo.classList.add("confirmed-book-info");
   const confirmedBookTitle = document.createElement("p");
+  confirmedBookTitle.className = 'titleID'
+  confirmedBookTitle.dataset.id = book[0].id;
   if (book[0].title.length > 15) {
     confirmedBookTitle.textContent = `${book[0].title.slice(0, 15)}...`;
     confirmedBookInfo.append(confirmedBookTitle);
@@ -241,7 +269,6 @@ const showSubmittedBook = (book) => {
 
 const storeSubmittedBook = (event) => {
   event.preventDefault();
-  console.log(event.target);
   if (storedBooks.some((book) => book.id === modalTitle.dataset.id)) {
     //do something
     console.log("hello");
@@ -260,6 +287,7 @@ const storeSubmittedBook = (event) => {
     });
     storedBooks.push(confirmedBooks);
     showSubmittedBook(storedBooks.slice(-1));
+    console.log(storedBooks);
     bookModal.close();
     document.querySelector(".confirmed-book-hide").hidden = false;
   }
@@ -268,12 +296,6 @@ const storeSubmittedBook = (event) => {
 document.querySelector(".modal-btn-cancel").addEventListener("click", () => {
   bookModal.close();
 });
-
-document
-  .querySelector(".edit-modal-btn-cancel")
-  .addEventListener("click", () => {
-    document.querySelector(".edit-book-modal").close();
-  });
 
 document
   .querySelector(".book-modal form")
@@ -286,4 +308,14 @@ document
   .addEventListener("submit", (event) => {
     event.preventDefault();
     bookAPI(searchBar.value);
+  });
+
+document
+  .querySelector(".edit-book-modal form")
+  .addEventListener("submit", submitEditedBook);
+
+document
+  .querySelector(".edit-modal-btn-cancel")
+  .addEventListener("click", () => {
+    document.querySelector(".edit-book-modal").close();
   });
