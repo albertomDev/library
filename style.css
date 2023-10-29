@@ -88,7 +88,7 @@ nav > ul > li > a {
 }
 
 .search-bar:focus {
-  outline: #ff9100 1px solid; 
+  outline: #ff9100 1px solid;
 }
 /* START ADD BOOK */
 
@@ -141,7 +141,7 @@ nav > ul > li > a {
   background: rgba(0, 0, 0, 0.737);
 }
 
-.book-modal form, 
+.book-modal form,
 .edit-book-modal form {
   display: flex;
   flex-direction: column;
@@ -165,7 +165,7 @@ nav > ul > li > a {
   border: none;
 }
 
-.modal-title, 
+.modal-title,
 .edit-modal-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -193,7 +193,7 @@ nav > ul > li > a {
   color: #3d3d3d;
 }
 
-.modal-info-wrapper input:focus, 
+.modal-info-wrapper input:focus,
 .edit-modal-info-wrapper input:focus {
   border: none;
   outline: none;
@@ -216,7 +216,7 @@ nav > ul > li > a {
   background-color: white;
 }
 
-.book-state-btns button:hover, 
+.book-state-btns button:hover,
 .edit-book-state-btns button:hover {
   border: #3d3d3d solid 1px;
   color: white;
@@ -224,7 +224,7 @@ nav > ul > li > a {
 }
 
 .book-state-btns .active,
-.edit-book-state-btns .active{
+.edit-book-state-btns .active {
   background-color: #3d3d3d;
   color: white;
 }
@@ -359,7 +359,6 @@ nav > ul > li > a {
   color: #0096c7;
   cursor: pointer;
 }
-
 
 footer {
   width: 100%;

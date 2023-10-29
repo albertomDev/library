@@ -15,6 +15,16 @@ const confirmedBooks = document.querySelector(".confirmed-books");
 const editBookRating = document.querySelector(".edit-modal-rating");
 const storedBooks = [];
 
+const buttonStyler = (state) => {
+  if (state === "To read") {
+    return "#3d3d3d";
+  } else if (state === "Finished") {
+    return "#40916c";
+  } else if (state === "Reading") {
+    return "#0096c7";
+  }
+};
+
 const addBookButtonHandler = () => {
   addBookButton.hidden = true;
   searchBar.hidden = false;
@@ -70,6 +80,13 @@ const cleanModalBook = () => {
   while (document.querySelector(".modal-rating").firstChild) {
     document.querySelector(".modal-rating").firstChild.remove();
   }
+
+  document.querySelectorAll(".book-state-btns button").forEach((button) => {
+    button.classList.remove("active");
+  });
+  document
+    .querySelectorAll(".book-state-btns button")[0]
+    .classList.add("active");
 };
 
 // It needs to check if there's thumbnail otherwise it will
@@ -137,9 +154,48 @@ const cleanUpAfterSubmission = () => {
   searchBar.hidden = true;
 };
 
+const deleteBook = (delBookID) => {
+  const containers = document.querySelectorAll(".confirmed-book-container");
+  for (let i = 0; i < containers.length; i++) {
+    if (containers[i].querySelector(".editTitle").dataset.id === delBookID) {
+      containers[i].parentNode.removeChild(containers[i]);
+    }
+  }
+
+  const delIndex = storedBooks.findIndex((book) => {
+    return book.id === delBookID;
+  });
+  if (delIndex !== -1) {
+    storedBooks.splice(delIndex, 1);
+  }
+};
+
 const updateDomBook = (book) => {
-  console.log('hello world');
-}
+  console.log(book.rating);
+  document
+    .querySelectorAll(".confirmed-book-container")
+    .forEach((container) => {
+      let editTitle = container.querySelector(".editTitle");
+      let editAuthor = container.querySelector(".editAuthor");
+      let editPages = container.querySelector(".editPages");
+      let editBtn = container.querySelector(".editBtn");
+      let editStars = container.querySelectorAll(".editStars i");
+
+      if (editTitle.dataset.id === book.id) {
+        if (book.author.length > 18) {
+          editAuthor.textContent = `${book.author.slice(0, 19)}...`;
+        } else {
+          editAuthor.textContent = book.author;
+        }
+        editPages.textContent = book.pages;
+        editBtn.textContent = book.state;
+        editBtn.style.backgroundColor = buttonStyler(book.state);
+        for (let i = 0; i < editStars.length; i++) {
+          editStars[i].setAttribute("class", `${book.rating[i]}`);
+        }
+      }
+    });
+};
 
 const cleanUpEditBook = () => {
   if (document.querySelector(".edit-modal-img").firstChild) {
@@ -163,11 +219,15 @@ const submitEditedBook = (event) => {
       book.title = editBookTitle.textContent;
       book.author = editBookAuthor.value;
       book.pages = editBookPages.value;
+      book.state = event.target.querySelector(
+        ".edit-book-state-btns .active"
+      ).textContent;
       book.rating = [];
       event.target.querySelectorAll(".edit-modal-rating i").forEach((star) => {
         book.rating.push(star.className);
       });
-      updateDomBook(book)
+      console.log(book);
+      updateDomBook(book);
     }
   });
   console.log(storedBooks);
@@ -181,6 +241,8 @@ const editStoredBook = (book) => {
   editModalImg.append(cardThumbnail);
   editBookTitle.textContent = book.title;
   editBookTitle.dataset.id = book.id;
+  document.querySelector(".delete-btn").dataset.id = book.id;
+  document.querySelector(".delete-btn");
   editBookAuthor.value = book.author;
   editBookPages.value = book.pages;
   book.rating.forEach((star) => {
@@ -188,6 +250,18 @@ const editStoredBook = (book) => {
     eachStar.className = star;
     editBookRating.append(eachStar);
   });
+
+  document
+    .querySelectorAll(".edit-book-state-btns button")
+    .forEach((button) => {
+      button.addEventListener("click", (event) => {
+        document
+          .querySelector(".edit-book-state-btns .active")
+          .classList.remove("active");
+        event.currentTarget.classList.add("active");
+        book.state = event.currentTarget.textContent;
+      });
+    });
 
   document.querySelectorAll(".edit-modal-rating i").forEach((star) => {
     star.addEventListener("click", (event) => {
@@ -211,38 +285,39 @@ const showSubmittedBook = (book) => {
   const confirmedBookInfo = document.createElement("div");
   confirmedBookInfo.classList.add("confirmed-book-info");
   const confirmedBookTitle = document.createElement("p");
-  confirmedBookTitle.className = 'titleID'
+  confirmedBookTitle.className = "editTitle";
   confirmedBookTitle.dataset.id = book[0].id;
   if (book[0].title.length > 15) {
     confirmedBookTitle.textContent = `${book[0].title.slice(0, 15)}...`;
-    confirmedBookInfo.append(confirmedBookTitle);
   } else {
     confirmedBookTitle.textContent = book[0].title;
-    confirmedBookInfo.append(confirmedBookTitle);
   }
+  confirmedBookInfo.append(confirmedBookTitle);
 
   const confirmedBookAuthor = document.createElement("p");
-  confirmedBookAuthor.textContent = book[0].author;
+  confirmedBookAuthor.className = "editAuthor";
+  if (book[0].author.length > 18) {
+    confirmedBookAuthor.textContent = `${book[0].author.slice(0, 18)}...`;
+  } else {
+    confirmedBookAuthor.textContent = book[0].author;
+  }
   confirmedBookInfo.append(confirmedBookAuthor);
 
   const confirmedBookPages = document.createElement("p");
+  confirmedBookPages.className = "editPages";
   confirmedBookPages.textContent = `${book[0].pages} 📖`;
   confirmedBookInfo.append(confirmedBookPages);
 
   const confirmedBookState = document.createElement("button");
-  if (book[0].state === "To read") {
-    confirmedBookState.style.backgroundColor = "#3d3d3d";
-  } else if (book[0].state === "Finished") {
-    confirmedBookState.style.backgroundColor = "#40916c";
-  } else if (book[0].state === "Reading") {
-    confirmedBookState.style.backgroundColor = "#0096c7";
-  }
+  confirmedBookState.style.backgroundColor = buttonStyler(book[0].state);
+  confirmedBookState.className = "editBtn";
   confirmedBookState.textContent = book[0].state;
   confirmedBookInfo.append(confirmedBookState);
 
   const starsEditBox = document.createElement("div");
   starsEditBox.classList.add("stars-edit-box");
   const rateStars = document.createElement("div");
+  rateStars.className = "editStars";
   rateStars.classList.add("confirmed-book-rating");
   book[0].rating.forEach((star) => {
     const eachStar = document.createElement("i");
@@ -271,7 +346,6 @@ const storeSubmittedBook = (event) => {
   event.preventDefault();
   if (storedBooks.some((book) => book.id === modalTitle.dataset.id)) {
     //do something
-    console.log("hello");
   } else {
     const confirmedBooks = {
       id: modalTitle.dataset.id,
@@ -319,3 +393,8 @@ document
   .addEventListener("click", () => {
     document.querySelector(".edit-book-modal").close();
   });
+
+document.querySelector(".delete-btn").addEventListener("click", (event) => {
+  deleteBook(event.target.dataset.id);
+  document.querySelector(".edit-book-modal").close();
+});
