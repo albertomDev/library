@@ -24,7 +24,8 @@ const buttonStyler = (state) => {
     return "#0096c7";
   }
 };
-
+// opens search if there was no setTimeout
+// there would not animation.
 const addBookButtonHandler = () => {
   addBookButton.hidden = true;
   searchBar.hidden = false;
@@ -34,6 +35,7 @@ const addBookButtonHandler = () => {
   }, 100);
 };
 
+// display book description when clicked
 const showModalBook = (event) => {
   const cardThumbnail = document.createElement("img");
   cardThumbnail.src = event.target.getAttribute("src");
@@ -67,13 +69,15 @@ const showModalBook = (event) => {
   bookModal.showModal();
 };
 
-// it needs to click each modal book otherwise,
-// the edited data will persist
+// it needs to be emptied otherwise the data
+// from previous modal will persist
 const cleanModalBook = () => {
   if (modalImg.firstChild) {
     modalImg.firstChild.remove();
   }
   modalTitle.textContent = "";
+  modalTitle.style.color = "#3d3d3d";
+  modalPages.style.color = "#3d3d3d";
   modalAuthor.value = "";
   modalPages.value = "";
 
@@ -124,6 +128,8 @@ const showFetchedBooks = (books) => {
   });
 };
 
+// Each time it fetches, it must empty the screen,
+// otherwise the previous fetch would be seen.
 const bookAPI = (term) => {
   fetch(
     `https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=21&key=${APIKey}`
@@ -145,6 +151,7 @@ const bookAPI = (term) => {
     });
 };
 
+// cleans up the the page, back to the start
 const cleanUpAfterSubmission = () => {
   while (bookImgs.firstChild) {
     bookImgs.firstChild.remove();
@@ -154,6 +161,8 @@ const cleanUpAfterSubmission = () => {
   searchBar.hidden = true;
 };
 
+// because I didn't want iterate through all the books to display them,
+// I had to iterate through the dom/containers/books
 const deleteBook = (delBookID) => {
   const containers = document.querySelectorAll(".confirmed-book-container");
   for (let i = 0; i < containers.length; i++) {
@@ -170,8 +179,8 @@ const deleteBook = (delBookID) => {
   }
 };
 
+// displays the edited book
 const updateDomBook = (book) => {
-  console.log(book.rating);
   document
     .querySelectorAll(".confirmed-book-container")
     .forEach((container) => {
@@ -197,6 +206,9 @@ const updateDomBook = (book) => {
     });
 };
 
+
+// before a book is edited, the editStoredBook empty
+// otherwise it will append old values 
 const cleanUpEditBook = () => {
   if (document.querySelector(".edit-modal-img").firstChild) {
     document.querySelector(".edit-modal-img").firstChild.remove();
@@ -210,30 +222,41 @@ const cleanUpEditBook = () => {
   }
 };
 
+// updates the array with edited book
+// and does form validation -> must a valid positive number
 const submitEditedBook = (event) => {
   event.preventDefault();
   storedBooks.forEach((book) => {
     if (book.id === editBookTitle.dataset.id) {
-      book.id = editBookTitle.dataset.id;
-      book.img = event.target.querySelector(".edit-modal-img img").src;
-      book.title = editBookTitle.textContent;
-      book.author = editBookAuthor.value;
-      book.pages = editBookPages.value;
-      book.state = event.target.querySelector(
-        ".edit-book-state-btns .active"
-      ).textContent;
-      book.rating = [];
-      event.target.querySelectorAll(".edit-modal-rating i").forEach((star) => {
-        book.rating.push(star.className);
-      });
-      console.log(book);
-      updateDomBook(book);
+      const validPages = Number(editBookPages.value);
+      const isNumber = !isNaN(validPages);
+      const isPositive = validPages > 0;
+      if (!isNumber || !isPositive) {
+        editBookPages.value = "enter a positive number";
+        editBookPages.style.color = "red";
+      } else {
+        book.id = editBookTitle.dataset.id;
+        book.img = event.target.querySelector(".edit-modal-img img").src;
+        book.title = editBookTitle.textContent;
+        book.author = editBookAuthor.value;
+        book.pages = editBookPages.value;
+        book.state = event.target.querySelector(
+          ".edit-book-state-btns .active"
+        ).textContent;
+        book.rating = [];
+        event.target
+          .querySelectorAll(".edit-modal-rating i")
+          .forEach((star) => {
+            book.rating.push(star.className);
+          });
+        updateDomBook(book);
+        document.querySelector(".edit-book-modal").close();
+      }
     }
   });
-  console.log(storedBooks);
-  document.querySelector(".edit-book-modal").close();
 };
 
+// opens a modal with clicked book to be edited
 const editStoredBook = (book) => {
   document.querySelector(".edit-book-modal").showModal();
   const cardThumbnail = document.createElement("img");
@@ -245,6 +268,7 @@ const editStoredBook = (book) => {
   document.querySelector(".delete-btn");
   editBookAuthor.value = book.author;
   editBookPages.value = book.pages;
+  editBookPages.style.color = "#3d3d3d";
   book.rating.forEach((star) => {
     const eachStar = document.createElement("i");
     eachStar.className = star;
@@ -265,15 +289,16 @@ const editStoredBook = (book) => {
 
   document.querySelectorAll(".edit-modal-rating i").forEach((star) => {
     star.addEventListener("click", (event) => {
-      console.log(event.currentTarget);
       event.currentTarget.classList.toggle("fa-regular");
       event.currentTarget.classList.toggle("fa-solid");
     });
   });
 };
 
+// display the book to screen once it passes
+// all the checks
 const showSubmittedBook = (book) => {
-  console.log(book);
+  //console.log(book);
   cleanUpAfterSubmission();
   const confirmedBookContainer = document.createElement("div");
   confirmedBookContainer.classList.add("confirmed-book-container");
@@ -342,10 +367,20 @@ const showSubmittedBook = (book) => {
   });
 };
 
+// stores in array the book submitted from showModalBook
+// but before, it does form validation -> must a valid positive number
+// and makes sure it's not a repeated book
 const storeSubmittedBook = (event) => {
   event.preventDefault();
+  const validPages = Number(modalPages.value);
+  const isNumber = !isNaN(validPages);
+  const isPositive = validPages > 0;
   if (storedBooks.some((book) => book.id === modalTitle.dataset.id)) {
-    //do something
+    modalTitle.textContent = "This book already exists in your library!";
+    modalTitle.style.color = "red";
+  } else if (!isNumber || !isPositive) {
+    modalPages.value = "enter a positive number";
+    modalPages.style.color = "red";
   } else {
     const confirmedBooks = {
       id: modalTitle.dataset.id,
@@ -361,7 +396,7 @@ const storeSubmittedBook = (event) => {
     });
     storedBooks.push(confirmedBooks);
     showSubmittedBook(storedBooks.slice(-1));
-    console.log(storedBooks);
+    //console.log(storedBooks);
     bookModal.close();
     document.querySelector(".confirmed-book-hide").hidden = false;
   }
@@ -398,3 +433,8 @@ document.querySelector(".delete-btn").addEventListener("click", (event) => {
   deleteBook(event.target.dataset.id);
   document.querySelector(".edit-book-modal").close();
 });
+
+document.querySelector('.logo').addEventListener('click', () => {
+  document.querySelector(".confirmed-book-hide").hidden = false;
+  cleanUpAfterSubmission()
+})
