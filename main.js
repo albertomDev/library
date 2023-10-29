@@ -1,4 +1,4 @@
-import { APIKey } from "./key.js";
+//import { APIKey } from "./key.js";
 const searchBar = document.querySelector(".search-bar");
 const addBookButton = document.querySelector(".add-book-button");
 const bookImgs = document.querySelector(".books");
@@ -132,7 +132,7 @@ const showFetchedBooks = (books) => {
 // otherwise the previous fetch would be seen.
 const bookAPI = (term) => {
   fetch(
-    `https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=21&key=${APIKey}`
+    `https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=21&key=AIzaSyDXfu1Hhv7-N2qQimZ0Dc_M0jlxjh8Blhc`
   )
     .then((res) => {
       if (!res.ok) {
@@ -206,9 +206,8 @@ const updateDomBook = (book) => {
     });
 };
 
-
 // before a book is edited, the editStoredBook empty
-// otherwise it will append old values 
+// otherwise it will append old values
 const cleanUpEditBook = () => {
   if (document.querySelector(".edit-modal-img").firstChild) {
     document.querySelector(".edit-modal-img").firstChild.remove();
@@ -434,7 +433,7 @@ document.querySelector(".delete-btn").addEventListener("click", (event) => {
   document.querySelector(".edit-book-modal").close();
 });
 
-document.querySelector('.logo').addEventListener('click', () => {
+document.querySelector(".logo").addEventListener("click", () => {
   document.querySelector(".confirmed-book-hide").hidden = false;
-  cleanUpAfterSubmission()
-})
+  cleanUpAfterSubmission();
+});
