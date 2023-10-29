@@ -13,6 +13,7 @@ const editBookAuthor = document.querySelector(".edit-modal-author input");
 const editBookPages = document.querySelector(".edit-modal-pages input");
 const confirmedBooks = document.querySelector(".confirmed-books");
 const editBookRating = document.querySelector(".edit-modal-rating");
+const bookNotFound = document.querySelector(".no-book");
 const storedBooks = [];
 
 const buttonStyler = (state) => {
@@ -145,8 +146,10 @@ const bookAPI = (term) => {
         bookImgs.firstChild.remove();
       }
       showFetchedBooks(data.items);
+      bookNotFound.hidden = true;
     })
     .catch((error) => {
+      bookNotFound.hidden = false;
       console.log(error);
     });
 };
@@ -435,5 +438,6 @@ document.querySelector(".delete-btn").addEventListener("click", (event) => {
 
 document.querySelector(".logo").addEventListener("click", () => {
   document.querySelector(".confirmed-book-hide").hidden = false;
+  bookNotFound.hidden = true;
   cleanUpAfterSubmission();
 });

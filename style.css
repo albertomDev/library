@@ -359,6 +359,11 @@ nav > ul > li > a {
   color: #0096c7;
   cursor: pointer;
 }
+/* START CONFIRMED BOOKS */
+
+.no-book {
+  font-size: 2rem;
+}
 
 footer {
   width: 100%;
