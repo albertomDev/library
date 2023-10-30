@@ -8,7 +8,7 @@ I am not a UI designer, so I like to take inspiration from other creators. Cloni
 
 ## Short description
 
-It's library where you can search, rate and keep track of your of books. This uses the google books API.
+It's a library webapp where you can search, rate and keep track of your of books. This uses the google books API.
 
 This project is part of The Odin Project curriculum.
 
