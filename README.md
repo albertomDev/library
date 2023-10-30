@@ -2,7 +2,7 @@
 
 **Live demo:** https://albertomdev.github.io/library/
 
-<img src="img/library-showcase.png" height="700">
+<img src="img/library-showcase.png" width="100%">
 
 I am not a UI designer, so I like to take inspiration from other creators. Cloning projects from creators that are better than me, forces me think hard and google a lot. Once again, I took inspiration from michalosman but added my own salsa.
 
@@ -31,7 +31,7 @@ This project is part of The Odin Project curriculum.
 
 I let [Google Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=en) run over my application to check for performance, accessibility, use of best practices and SEO optimization.
 
-<img src="img/metrics.png" height="500">
+<img src="img/metrics.png" width="100%">
 
 ## What I learned:
 
