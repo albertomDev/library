@@ -25,6 +25,7 @@ This project is part of The Odin Project curriculum.
 - Known limitations
   - When rating the books, the stars need to be selected one by one
   - No persistent storage
+  - Desktop only
   - No login feature
 
 ## Performance
